@@ -1,0 +1,7 @@
+Bonjour,
+
+Vous avez demandé à changer de mot de passe pour cette adresse mail {{ email }}.
+Vous pouvez le faire en suivant ce lien :
+{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+A bientôt sur Good Citizen

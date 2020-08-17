@@ -26,6 +26,17 @@ SECRET_KEY = 'gtzxp3lxg7*-mhj-t3mc3kv(@-*o-_dilgw%mdztjq@my9nc0i'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+LOGIN_REDIRECT_URL = 'account'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+
+from env import email_pwd
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'good.citizen.fr'
+EMAIL_HOST_PASSWORD = email_pwd
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
 
 
 # Application definition
@@ -130,3 +141,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

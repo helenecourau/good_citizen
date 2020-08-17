@@ -95,6 +95,6 @@ class QuestionsAnswers(models.Model):
 
     def __str__(self):
 
-        return self.question + self.quizz             
+        return f'{self.question} {self.answer}'        
 
 

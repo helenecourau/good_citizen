@@ -1,0 +1,45 @@
+<style type="text/css">
+	@media screen and (max-width: 1280px)
+	{
+		h1{
+			vertical-align: middle;
+		}
+	}  
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+	        <div class="align-items-center justify-content-center text-center">
+	            
+	                <h1 class="text-uppercase text-white font-weight-bold">Mon compte</h1>
+                    </div>
+	            <div >
+	                {% if messages %}
+					<ul class="messages">
+						{% for message in messages %}
+							<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				{% if error %}
+				<h3><strong><a href="connexion">Connectez-vous pour accéder à votre compte </a></strong></h3> 
+				<h3><strong><a href="creer-compte">ou créez votre compte !</a></strong></h3>
+				{% endif %}
+
+				{% if user.is_authenticated %}
+				
+					<p><strong>Bonjour {{ user.first_name }} !</strong></p>
+					<p><strong>{{ user.email }}</strong></p>
+				
+				<form action="{% url 'account' %}" method="post">
+					{% csrf_token %}
+					<input id="user_id" type="hidden" name="user_id" value="{{ user.id }}">
+				  	<input type="submit" value="Supprimer mon compte" id="delete" class="btn btn-primary btn-search" />
+				</form>
+				<p><a href="/changer-mdp">Changer mon mot de passe</a></p>
+				{% else %}
+				{% endif %}
+	        </div>
+	  </header>
+
+{% endblock %}
