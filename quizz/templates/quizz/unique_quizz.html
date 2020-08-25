@@ -6,12 +6,11 @@
     <div class="col-lg-12 col-sm-12" id="container" >
 		{% for question in page_obj %}
 			<p>{{ question.question_text }} {{ question.answer_set }}</p>
-			{% for answer in question.answer_set.all %}
-				<p>{{ answer.answer_text }}</p>
-			{% endfor %}
-			<form action="page={{ page_obj.number }}" method="post">
+			<form method="post">
 				{% csrf_token %}
-			    <input id="answer_id" type="hidden" name="answer_id" value="{{ answer.id }}">
+				{% for answer in question.answer_set.all %}
+					<p><input id="answer_id" type="checkbox" name="answer_id" value="{{ answer.id }}"> {{ answer.answer_text }}</p>
+				{% endfor %}
 				<input type="submit" value="Sauvegarder" id="submit" />
 			</form>		
 		{% endfor %}

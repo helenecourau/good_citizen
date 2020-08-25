@@ -7,7 +7,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.core.paginator import Paginator, EmptyPage
 
 from .forms import AccountForm
-from .models import User, Quizz, Question, Answer
+from .models import User, Quizz, Question, Answer, QuestionsAnswers
 
 def account_create(request):
     if not request.user.is_authenticated:
@@ -59,8 +59,19 @@ def quizz(request):
     return render(request, 'quizz/quizz.html', locals())
 
 def unique_quizz(request, id):
-    questions = Question.objects.filter(quizz__pk=id)
+    questions = Question.objects.filter(quizz__pk=id).order_by('id')
     paginator = Paginator(questions, 1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    if request.method == 'POST':
+        article_id = request.POST.getlist('answer_id')
+        question_id = page_obj.object_list[0].id
+        question_answer = QuestionsAnswers.objects.filter(question__id=question_id, answer__id__in=article_id).values_list('right_answer', flat=True)
+        if False in question_answer:
+            result = False
+        else:
+            result = True
+        print(result)
+        user_id = request.user.id
+    
     return render(request, 'quizz/unique_quizz.html', {'page_obj': page_obj})
