@@ -63,15 +63,23 @@ def unique_quizz(request, id):
     paginator = Paginator(questions, 1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    total_result = 0
     if request.method == 'POST':
-        article_id = request.POST.getlist('answer_id')
+        answer_user_id = request.POST.getlist('answer_id')
         question_id = page_obj.object_list[0].id
-        question_answer = QuestionsAnswers.objects.filter(question__id=question_id, answer__id__in=article_id).values_list('right_answer', flat=True)
-        if False in question_answer:
+        question_answer = QuestionsAnswers.objects.filter(question__id=question_id)
+        answer_user = question_answer.filter(answer__id__in=answer_user_id).values_list('right_answer', flat=True)
+        right_answer = question_answer.filter(right_answer=True)
+        if False in answer_user:
             result = False
         else:
             result = True
-        print(result)
-        user_id = request.user.id
+        if result == False:
+            messages.add_message(request, messages.WARNING,
+                                 ("Aïe! Ce n'était pas tout à fait ça. La bonne réponse est " + right_answer[0].answer.answer_text))
+        if result == True:
+            total_result += 1
+            messages.add_message(request, messages.WARNING,
+                                 "Bravo! C'était la bonne réponse !")
     
     return render(request, 'quizz/unique_quizz.html', {'page_obj': page_obj})
