@@ -1,44 +1,149 @@
 <style type="text/css">
+    #submit {
+        margin-top: 10px;
+    }
+
+    #h2 {
+        margin-bottom: 50px;
+    }
+    #error {
+        color: red;
+    }
+    #success {
+        color: green;
+    }
+    input[type=checkbox] {
+        width: 0.8em;
+        height: 0.8em;
+        background-color: white;
+        border-radius: 20%;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        -webkit-appearance: none;
+        outline: none;
+        cursor: pointer;
+    }
+    input[type=checkbox]:checked {
+        background-color: gray;
+    }
 </style>
 {% extends "base.html" %}
 {% block content %}
-<div class="row h-50 align-items-center col-lg-12 ">
-    <div class="col-lg-12 col-sm-12" id="container" >
-		{% for question in page_obj %}
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-			<p>{{ question.question_text }} {{ question.answer_set }}</p>
-			<form method="post">
-				{% csrf_token %}
+<div class="h-100">
+    <div id="h2">
+    <h2 id="test">{{quizz.name}}</h2>
+    <div>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if 'final' in message.tags %}{{ message }}{% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+    <form method="post" id="quizz-form">
+        {% csrf_token %}
+		{% for question in questions %}
+        <div class="col-lg-12 col-sm-12" id="question" title="{{ question.id }}">
+			<p><strong>{{ forloop.counter }}) {{ question.question_text }}</strong></p>
 				{% for answer in question.answer_set.all %}
-					<p><input id="answer_id" type="checkbox" name="answer_id" value="{{ answer.id }}"> {{ answer.answer_text }}</p>
+					<p id="{{ question.id }}{{ answer.id }}"><input id="answer_id" type="checkbox" name="{{ question.id }}" value="{{ answer.id }}"> {{ forloop.counter }}) {{ answer.answer_text }}</p>
 				{% endfor %}
-				<input type="submit" value="Sauvegarder" id="submit" />
-			</form>		
+        </div>	
 		{% endfor %}
-	</div>
+        <div class="col-lg-12 col-sm-12">
+            <input class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" type="submit" value="Sauvegarder" id="submit" />
+        </div>
+    </form>
 </div>
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+<script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
+<script>
+    $("#submit").click(function (e) {
+        e.preventDefault();
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        var checkedBoxes = document.querySelectorAll('input[id=answer_id]:checked');
+        var questions = document.querySelectorAll('[id=question]');
+        let toSend = true
+        for (let question of questions) {
+            let isChecked = false
+            for (let checkedBoxe of checkedBoxes) {
+                if (question['title']===checkedBoxe['name']) {
+                    isChecked = true
+                }
+            }
+            if (isChecked===false) {
+                let alert = document.createElement('p');
+                alert.textContent = "Vous devez choisir au moins une réponse !"
+                alert.style.color = "red"
+                question.append(alert)
+                toSend = false
+            }
+        }
+        if (toSend===true) {
+            var checkboxesChecked = [];
+            var controlList = [];
+            for (let checkedBoxe of checkedBoxes) {
+                valueList = [];
+                let key = Number(checkedBoxe['name']);
+                let value = Number(checkedBoxe['value'])
+                if (controlList.includes(key) == true) {
+                    checkboxesChecked.find(obj => {
+                        if (obj.key === key) {
+                            obj.value.push(value);
+                        }
+                    })
+                }
+                else {
+                    valueList.push(value)
+                    let answer = {
+                        key: key,
+                        value: valueList,
+                    };
+                    controlList.push(key)
+                    checkboxesChecked.push(answer)
+                }
+            }
+            var serializedData = JSON.stringify(checkboxesChecked)
+            $.ajax({
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                type: 'POST',
+                url: "{% url 'quizz_page' id_quizz %}",
+                data: {"answer_id":serializedData},
+                success: function (json) {
+                    let total_result = json["total_result"]
+                    let title = document.getElementsByTagName("h2")[0];
+                    let result_p = document.createElement('p');
+                    if (json["final_result"] === true) {
+                        result_p.textContent = "Vous avez " + total_result + " bonnes réponses. Bravo, vous avez réussi ce quizz !"
+                    } else {
+                        result_p.textContent = "Vous avez " + total_result + " bonnes réponses. Vous n'avez pas réussi ce quizz, réessayez plus tard."
+                    }
+                    title.append(result_p)
+                    for (let [key, values] of Object.entries(json["right_answers"])) {
+                        for (let value of values) {
+                            let node = document.getElementById(key+value)
+                            node.className = 'right'
+                            node.insertAdjacentHTML('afterbegin', "<i class=\"fas fa-check\" color=green></i>&nbsp;");
+                        }
+                    }
+                    for (let [key, values] of Object.entries(checkboxesChecked)) {
+                        for (let value of values.value) {
+                            let node = document.getElementById(values.key.toString()+value.toString())
+                            if (node.className != "right") {
+                                node.insertAdjacentHTML('afterbegin', "<i class=\"fa fa-times\" color=red></i>&nbsp;");
+                            }
+                        }
+                    }
+                },
+            })
+        }
+    })
+</script>
+<script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
+<!-- <script src="../static/js/ajax.js"></script> -->
+<script src="../static/js/javascript.js"></script>
 {% endblock %}

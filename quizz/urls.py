@@ -34,5 +34,5 @@ urlpatterns = [
     url('mentions-legales',
         TemplateView.as_view(template_name='legal.html')),
     url(r'^quizz/$', views.quizz, name='quizz'),
-    path('quizz/<int:id>', views.unique_quizz, name='quizz_page'),
+    path('quizz/<int:id_quizz>', views.unique_quizz, name='quizz_page'),
     ]

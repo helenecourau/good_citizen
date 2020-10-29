@@ -54,3 +54,12 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
+
+let elt = document.getElementById('submit');
+
+elt.addEventListener('click', function() {
+    var adressElt = document.createElement("p");
+    adressElt.id = "adress";
+    adressElt.textContent = "Voici l'adresse dont tu as besoin";
+    document.getElementById("container").appendChild(adressElt);
+});

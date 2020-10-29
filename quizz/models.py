@@ -76,14 +76,14 @@ class LittleStory(models.Model):
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     quizz = models.ForeignKey(Quizz, on_delete=models.SET_NULL, null=True)
-    score = models.PositiveSmallIntegerField()
+    score = models.PositiveSmallIntegerField(null=True)
 
     class Meta:
-        verbose_name = "UserQuizz"
+        verbose_name = "Result"
 
     def __str__(self):
 
-        return f'Score de {self.user.name} sur le quizz {self.quizz.name}'
+        return f'Score de {self.user.username} sur le quizz {self.quizz.name}'
 
 class QuestionsAnswers(models.Model):
     question = models.ForeignKey(Question, on_delete=models.SET_NULL, null=True)
