@@ -27,8 +27,11 @@
         }
 
         #form_connect{
-
             left: 10px;
+        }
+
+        #label{
+            padding-top: 5%
         }
 
     }  
@@ -42,31 +45,39 @@
 {% endif %}
 
 <div class="col-lg-12">
-    <h1 class="text-uppercase text-white font-weight-bold justify-content-center text-center">Changer mon mot de passe</h1>
+    <h1>Changer mon mot de passe</h1>
 </div>
 
-<form action="{% url 'pwd_change' %}" method="post" class="col-lg-12 align-self-baseline" id="form_connect">
+<form action="{% url 'pwd_change' %}" method="post" class="col-lg-12" id="form_connect">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="col-lg-10" id="field">
-        <div class="fieldWrapper col-lg-5">
+        <div class="col-lg-2" id="label">
             {{ form.old_password.errors }}
-            <p><label for="{{ form.old_password.id_for_label }}">Ancien mot de passe:</label>
-            {{ form.old_password }}</p>
+            <p><label for="{{ form.old_password.id_for_label }}">Ancien mot de passe:</label></p>
         </div>
-        <div class="fieldWrapper col-lg-5">
+        <div class="col-lg-3">
+            {{ form.old_password }}
+        </div>
+        <div class="col-lg-2" id="label">
             {{ form.new_password1.errors }}
-            <p><label for="{{ form.new_password1.id_for_label }}">Nouveau mot de passe:</label>
-            {{ form.new_password1 }}</p>
+            <p><label for="{{ form.new_password1.id_for_label }}">Nouveau mot de passe:</label></p>
+        </div>
+        <div class="col-lg-3">
+            {{ form.new_password1 }}
         </div>
     </div>
     <div class="col-lg-10" id="field">
-        <div class="fieldWrapper col-lg-5">
+        <div class="col-lg-2" id="label">
             {{ form.new_password2.errors }}
-            <p><label for="{{ form.new_password2.id_for_label }}">Confirmer le mot de passe:</label>
-            {{ form.new_password2 }}</p>
+            <p><label for="{{ form.new_password2.id_for_label }}">Confirmer le mot de passe:</label></p>
         </div>
-        <div class="fieldWrapper col-lg-5">
+        <div class="col-lg-3">
+            {{ form.new_password2 }}
+        </div>
+    </div>
+    <div class="col-lg-10" id="field">
+        <div class="col-lg-5" id="label">
             <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
         </div>
     </div>

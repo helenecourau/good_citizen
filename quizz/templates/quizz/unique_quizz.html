@@ -5,13 +5,6 @@
 
     #h2 {
         margin-bottom: 50px;
-        color: white;
-    }
-    #error {
-        color: red;
-    }
-    #success {
-        color: green;
     }
     input[type=checkbox] {
         width: 0.86em;
@@ -30,11 +23,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="h-100">
-    <div id="h2">
+<div id="h2">
     <h2 id="test">{{quizz.name}}</h2>
 </div>
-
+{% if user.is_authenticated %}
 <form method="post" id="quizz-form">
     {% csrf_token %}
 	{% for question in questions %}
@@ -51,96 +43,22 @@
         <input class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" type="submit" value="Sauvegarder" id="submit" />
     </div>
 </form>
-
+{% else %}
+    <h3><a href="/connexion">Connectez-vous</a> pour accéder au quizz !</h3>
+{% endif %}
 <script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
-<script>
-    $("#submit").click(function (e) {
-        e.preventDefault();
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        var checkedBoxes = document.querySelectorAll('input[id=answer_id]:checked');
-        var questions = document.querySelectorAll('[class=question]');
-        let toSend = true
-        for (let question of questions) {
-            let isChecked = false
-            for (let checkedBoxe of checkedBoxes) {
-                if (question['id']===checkedBoxe['name']) {
-                    isChecked = true
-                }
-            }
-            if (isChecked===false) {
-                let alert = document.createElement('p');
-                alert.textContent = "Vous devez choisir au moins une réponse !"
-                alert.style.color = "red"
-                question.append(alert)
-                toSend = false
-            }
-        }
-        if (toSend===true) {
-            button = document.getElementById("submit");
-            button.disabled = true;
-            var checkboxesChecked = [];
-            var controlList = [];
-            for (let checkedBoxe of checkedBoxes) {
-                valueList = [];
-                let key = Number(checkedBoxe['name']);
-                let value = Number(checkedBoxe['value'])
-                if (controlList.includes(key) == true) {
-                    checkboxesChecked.find(obj => {
-                        if (obj.key === key) {
-                            obj.value.push(value);
-                        }
-                    })
-                }
-                else {
-                    valueList.push(value)
-                    let answer = {
-                        key: key,
-                        value: valueList,
-                    };
-                    controlList.push(key)
-                    checkboxesChecked.push(answer)
-                }
-            }
-            var serializedData = JSON.stringify(checkboxesChecked)
-            $.ajax({
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                type: 'POST',
-                url: "{% url 'quizz_page' id_quizz %}",
-                data: {"answer_id":serializedData},
-                success: function (json) {
-                    let total_result = json["total_result"]
-                    let title = document.getElementsByTagName("h2")[0];
-                    let result_p = document.createElement('p');
-                    if (json["final_result"] === true) {
-                        result_p.textContent = "Vous avez " + total_result + " bonnes réponses. Bravo, vous avez réussi ce quizz !"
-                    } else {
-                        result_p.textContent = "Vous avez " + total_result + " bonnes réponses. Vous n'avez pas réussi ce quizz, réessayez plus tard."
-                    }
-                    title.append(result_p)
-                    for (let [key, values] of Object.entries(json["right_answers"])) {
-                        for (let value of values) {
-                            let node = document.getElementById(key+value)
-                            node.className = 'right'
-                            node.insertAdjacentHTML('afterbegin', "<i class=\"fas fa-check\" color=green></i>&nbsp;");
-                        }
-                    }
-                    for (let [key, values] of Object.entries(checkboxesChecked)) {
-                        for (let value of values.value) {
-                            let node = document.getElementById(values.key.toString()+value.toString())
-                            if (node.className != "right") {
-                                node.insertAdjacentHTML('afterbegin', "<i class=\"fa fa-times\" color=red></i>&nbsp;");
-                            }
-                        }
-                    }
-                },
-            })
-        }
-    })
-</script>
-<script src="https://code.jquery.com/jquery-1.12.3.js" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc=" crossorigin="anonymous"></script>
-<!-- <script src="../static/js/ajax.js"></script> -->
 <script src="../static/js/javascript.js"></script>
+<script>
+window.onload = cleanPage();
+$("#submit").click(function (e) {
+    e.preventDefault();
+    let checkedBoxes = document.querySelectorAll('input[id=answer_id]:checked');
+    let questions = document.querySelectorAll('[class=question]');
+    let toSend = checkIfSend(questions, checkedBoxes);
+    let url = "{% url 'quizz_page' id_quizz %}";
+    if (toSend===true) {
+        main(checkedBoxes, url)
+    }
+})
+</script>
 {% endblock %}

@@ -1,6 +1,14 @@
 from django.contrib import admin
-from .models import Category, Quizz, Question, Answer,\
-LittleStory, Result, QuestionsAnswers, User
+from .models import (
+    Category,
+    Quizz,
+    Question,
+    Answer,
+    LittleStory,
+    Result,
+    QuestionsAnswers,
+    User,
+)
 
 admin.site.register(Category)
 admin.site.register(Quizz)
