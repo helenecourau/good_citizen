@@ -7,7 +7,7 @@ branches:
   only:
     - master
 env:
-  - DJANGO_VERSION=2.0
+  - env: DJANGO_SETTINGS_MODULE=good_citizen.travis
 services:
   - postgresql
 script:
