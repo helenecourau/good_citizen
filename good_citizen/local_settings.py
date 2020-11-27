@@ -22,7 +22,7 @@ sentry_sdk.init(
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
-)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,7 +44,7 @@ LOGIN_URL = "login"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "good.citizen.fr"
-EMAIL_HOST_PASSWORD = 'gNHiS45m4'
+EMAIL_HOST_PASSWORD = "pwd"
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 
@@ -104,7 +104,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "good_citizen",
         "USER": "postgres",
-        "PASSWORD": 'mdp',
+        "PASSWORD": "pwd",
         "HOST": "localhost",
         "PORT": "5432",
     }
