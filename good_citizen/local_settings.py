@@ -11,10 +11,18 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-from env import email_pwd
-from env import pwd
+sentry_sdk.init(
+    dsn="https://6af1d7f9bb994413bbfb58d4caf37e26@o359574.ingest.sentry.io/5533208",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
 
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +35,6 @@ SECRET_KEY = "gtzxp3lxg7*-mhj-t3mc3kv(@-*o-_dilgw%mdztjq@my9nc0i"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = "account"
 LOGOUT_REDIRECT_URL = "home"
@@ -37,7 +44,7 @@ LOGIN_URL = "login"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "good.citizen.fr"
-EMAIL_HOST_PASSWORD = email_pwd
+EMAIL_HOST_PASSWORD = 'gNHiS45m4'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 
@@ -96,8 +103,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "good_citizen",
-        "USER": "helene",
-        "PASSWORD": pwd,
+        "USER": "postgres",
+        "PASSWORD": 'mdp',
         "HOST": "localhost",
         "PORT": "5432",
     }
