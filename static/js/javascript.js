@@ -6,8 +6,8 @@ function cleanPage() {
 }
 
 function checkIfSend(questions, checkedBoxes) {
-	let toSend = true;
-	for (let question of questions) {
+    let toSend = true;
+    for (let question of questions) {
         let isChecked = false
         for (let checkedBoxe of checkedBoxes) {
             if (question['id']===checkedBoxe['name']) {
@@ -25,13 +25,33 @@ function checkIfSend(questions, checkedBoxes) {
     return toSend
 }
 
+function main(checkedBoxes, url) {
+    disableButton ();       
+    let checkboxesChecked = createData(checkedBoxes);
+    let serializedData = JSON.stringify(checkboxesChecked);
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        type: 'POST',
+        url: url,
+        data: {"answer_id":serializedData},
+        success: function (json) {
+            displayResult(json);
+            goodAnswer(json);
+            badAnswer(json, checkboxesChecked);
+        },
+    })
+}
+
 function disableButton() {
-	button = document.getElementById("submit");
+    button = document.getElementById("submit");
     button.disabled = true;
 }
 
 function createData(checkedBoxes) {
-	let checkboxesChecked = [];
+    let checkboxesChecked = [];
     let controlList = [];
     for (let checkedBoxe of checkedBoxes) {
         valueList = [];
@@ -58,7 +78,7 @@ function createData(checkedBoxes) {
 }
 
 function displayResult(json) {
-	let total_result = json["total_result"]
+    let total_result = json["total_result"]
     let title = document.getElementsByTagName("h2")[0];
     let result_p = document.createElement('p');
     if (json["final_result"] === true) {
@@ -88,24 +108,4 @@ function badAnswer(json, checkboxesChecked) {
             }
         }
     }
-}
-
-function main(checkedBoxes, url) {
-	disableButton ();       
-    let checkboxesChecked = createData(checkedBoxes);
-    let serializedData = JSON.stringify(checkboxesChecked);
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    $.ajax({
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        type: 'POST',
-        url: url,
-        data: {"answer_id":serializedData},
-        success: function (json) {
-            displayResult(json);
-            goodAnswer(json);
-            badAnswer(json, checkboxesChecked);
-        },
-    })
 }

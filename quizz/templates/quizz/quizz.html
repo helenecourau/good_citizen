@@ -25,28 +25,6 @@
 			</div>
 		{% endfor %}
 	</div>
-
-	<div>
-	    <span class="step-links">
-	    	<div id="first_line">
-		        {% if quizz_list.has_previous %}
-	            <a href="?category={{ category }}&amp;page=1"><button class="btn btn-primary btn-search">&laquo; Première</button></a>
-	            <a href="?catagory={{ category }}&amp;page={{ quizz_list.previous_page_number }}"><button class="btn btn-primary btn-search">Précédente</button></a>
-		        {% endif %}
-		    </div>
-		    <div id="second_line">
-		        {% if quizz_list.has_next %}
-	            <span class="current">
-	                Page {{ quizz_list.number }} sur {{ quizz_list.paginator.num_pages }}
-	            </span>
-		    </div>
-		    <div id="third_line">
-	            <a href="?category={{ category }}&amp;page={{ quizz_list.next_page_number }}"><button class="btn btn-primary btn-search">Suivante</button></a>
-	            <a href="?category={{ category }}&amp;page={{ quizz_list.paginator.num_pages }}"><button class="btn btn-primary btn-search">Dernière &raquo;</button></a>
-		        {% endif %}
-		    </div>
-	    </span>
-	</div>
     {% else %}
     <h3><a href="/connexion">Connectez-vous</a> pour accéder aux quizzs !</h3>
     {% endif %}

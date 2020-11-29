@@ -70,19 +70,6 @@ class Answer(models.Model):
         return self.name
 
 
-class LittleStory(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    story_text = models.TextField()
-    create_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-    class Meta:
-        verbose_name = "Little Story"
-
-    def __str__(self):
-
-        return self.name
-
-
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     quizz = models.ForeignKey(Quizz, on_delete=models.SET_NULL, null=True)

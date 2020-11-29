@@ -8,6 +8,7 @@ import datetime
 
 from .forms import AccountForm
 from .models import User, Quizz, Question, QuestionsAnswers, Result
+from .utils import answer_right_or_wrong, calulate_final_result, calulate_final_right_answer
 
 
 def page_not_found_view(request, exception):
@@ -73,7 +74,6 @@ def quizz(request):
 
 
 def unique_quizz(request, id_quizz):
-    total_result = 0
     quizz = Quizz.objects.get(pk=id_quizz)
     questions = Question.objects.filter(quizz__pk=id_quizz).order_by("id")
     right_answers = QuestionsAnswers.objects.filter(
@@ -81,34 +81,10 @@ def unique_quizz(request, id_quizz):
     )
     if request.is_ajax and request.method == "POST":
         answer_user_id = eval(request.POST.getlist("answer_id")[0])
-        for elt in answer_user_id:
-            result = None
-            question_answer = QuestionsAnswers.objects.filter(question__id=elt["key"])
-            right_answer = list(
-                question_answer.filter(right_answer=True).values_list(
-                    "answer__pk", flat=True
-                )
-            )
-            right_answer.sort()
-            elt["value"].sort()
-            if elt["value"] == right_answer:
-                result = True
-                total_result += 1
-            else:
-                result = False
-        if total_result >= len(questions) / 2:
-            final_result = True
-        else:
-            final_result = False
-        response_data = {}
-        final_right_answer = {}
-        for answer in right_answers:
-            if answer.question.pk not in final_right_answer.keys():
-                final_right_answer[answer.question.pk] = [answer.answer.pk]
-            else:
-                final_right_answer[answer.question.pk].append(answer.answer.pk)
-
-        result, created = Result.objects.update_or_create(
+        total_result = answer_right_or_wrong(answer_user_id)
+        final_result = calulate_final_result(total_result, questions)
+        final_right_answer = calulate_final_right_answer(right_answers)     
+        Result.objects.update_or_create(
             user=request.user,
             quizz=quizz,
             defaults={
@@ -117,7 +93,7 @@ def unique_quizz(request, id_quizz):
                 "success": final_result,
             },
         )
-
+        response_data = {}
         response_data["right_answers"] = final_right_answer
         response_data["total_result"] = total_result
         response_data["final_result"] = final_result
