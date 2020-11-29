@@ -96,9 +96,8 @@ def unique_quizz(request, id_quizz):
                 total_result += 1
             else:
                 result = False
-        if total_result >= len(question_answer) / 2:
+        if total_result >= len(questions) / 2:
             final_result = True
-
         else:
             final_result = False
         response_data = {}
