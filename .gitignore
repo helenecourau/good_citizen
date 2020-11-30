@@ -1,5 +1,6 @@
 good_citizen/production.py
 good_citizen/pc_settings.py
+good_citizen/settings.py
 __pycache__/
 env.py
 env/
