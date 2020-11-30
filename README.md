@@ -3,9 +3,9 @@
 The purpose of Good Citizen is to help people to improve their knowledge about ecology and first aid with quizz.
 We want to give them informations with fun.
 
-[Pur beurre](https://pur-beurre-heleneco.herokuapp.com/) website
+[Good Citizen](http://68.183.64.147/) website
 
-![website](https://github.com/helenecourau/pur_beurre/blob/master/static/img/pur_beurre.png)
+![website](https://github.com/helenecourau/good_citizen/blob/master/static/assets/img/header-bg.jpg)
 
 Purpose
 -----------------
