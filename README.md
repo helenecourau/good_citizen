@@ -5,13 +5,13 @@ We want to give them informations with fun.
 
 [Good Citizen](http://68.183.64.147/) website
 
-![website](https://github.com/helenecourau/good_citizen/blob/master/static/assets/img/header-bg.jpg)
+![website](https://github.com/helenecourau/good_citizen/blob/master/static/assets/img/pres_good_citizen.png)
 
 Purpose
 -----------------
 This is a student project for OpenClassroom Python course. It's the final and personal project.
 
-If you create an account, you can make a quizz and register your result to see your progress.
+If you create an account, you can make a quizz and register your results and see your progress.
 
 Features
 -----------------
