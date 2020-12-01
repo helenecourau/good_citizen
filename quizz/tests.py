@@ -141,8 +141,9 @@ class CreateAccountPageTestCase(SetUp):
                 "password": "helenecouraupwd",
             },
         )
+        user_list = list(User.objects.all().values_list('first_name', flat=True))
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(User.objects.filter(first_name="helene2").exists())
+        self.assertFalse("helene2" in user_list)
 
     def test_register_success_create_new_user_in_db(self):
         c = Client()
