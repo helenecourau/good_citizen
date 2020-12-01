@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db import IntegrityError
 import json
 import datetime
 
@@ -29,19 +30,18 @@ def account_create(request):
             mail = form.cleaned_data["mail"]
             password = form.cleaned_data["password"]
             try:
-                username_test = User.objects.get(username=username)
+                user = User.objects.create_user(username, mail, password)
+                user.first_name, user.last_name = first_name, last_name
+                user.save()
+                login(request, user)
+                return redirect("account")
+            except IntegrityError:
                 messages.add_message(
                     request,
                     messages.WARNING,
                     "Un compte existe déjà avec ce nom d'utilisateur.\
                                       Merci d'en choisir un autre.",
                 )
-            except User.DoesNotExist:
-                user = User.objects.create_user(username, mail, password)
-                user.first_name, user.last_name = first_name, last_name
-                user.save()
-                login(request, user)
-                return redirect("account")
     else:
         return redirect("account")
 
