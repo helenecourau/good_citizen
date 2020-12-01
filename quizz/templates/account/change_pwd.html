@@ -40,46 +40,46 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Votre nom d'utilisateur et votre mot de passe ne correspondent pas. Merci d'essayer à nouveau.</p>
-{% endif %}
+    {% if form.errors %}
+        <p>Votre nom d'utilisateur et votre mot de passe ne correspondent pas. Merci d'essayer à nouveau.</p>
+    {% endif %}
 
-<div class="col-lg-12">
-    <h1>Changer mon mot de passe</h1>
-</div>
+    <div class="col-lg-12">
+        <h1>Changer mon mot de passe</h1>
+    </div>
 
-<form action="{% url 'pwd_change' %}" method="post" class="col-lg-12" id="form_connect">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="col-lg-10" id="field">
-        <div class="col-lg-2" id="label">
-            {{ form.old_password.errors }}
-            <p><label for="{{ form.old_password.id_for_label }}">Ancien mot de passe:</label></p>
+    <form action="{% url 'pwd_change' %}" method="post" class="col-lg-12" id="form_connect">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="col-lg-10" id="field">
+            <div class="col-lg-2" id="label">
+                {{ form.old_password.errors }}
+                <p><label for="{{ form.old_password.id_for_label }}">Ancien mot de passe:</label></p>
+            </div>
+            <div class="col-lg-3">
+                {{ form.old_password }}
+            </div>
+            <div class="col-lg-2" id="label">
+                {{ form.new_password1.errors }}
+                <p><label for="{{ form.new_password1.id_for_label }}">Nouveau mot de passe:</label></p>
+            </div>
+            <div class="col-lg-3">
+                {{ form.new_password1 }}
+            </div>
         </div>
-        <div class="col-lg-3">
-            {{ form.old_password }}
+        <div class="col-lg-10" id="field">
+            <div class="col-lg-2" id="label">
+                {{ form.new_password2.errors }}
+                <p><label for="{{ form.new_password2.id_for_label }}">Confirmer le mot de passe:</label></p>
+            </div>
+            <div class="col-lg-3">
+                {{ form.new_password2 }}
+            </div>
         </div>
-        <div class="col-lg-2" id="label">
-            {{ form.new_password1.errors }}
-            <p><label for="{{ form.new_password1.id_for_label }}">Nouveau mot de passe:</label></p>
+        <div class="col-lg-10" id="field">
+            <div class="col-lg-5" id="label">
+                <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
+            </div>
         </div>
-        <div class="col-lg-3">
-            {{ form.new_password1 }}
-        </div>
-    </div>
-    <div class="col-lg-10" id="field">
-        <div class="col-lg-2" id="label">
-            {{ form.new_password2.errors }}
-            <p><label for="{{ form.new_password2.id_for_label }}">Confirmer le mot de passe:</label></p>
-        </div>
-        <div class="col-lg-3">
-            {{ form.new_password2 }}
-        </div>
-    </div>
-    <div class="col-lg-10" id="field">
-        <div class="col-lg-5" id="label">
-            <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
-        </div>
-    </div>
-</form>
+    </form>
 {% endblock %}

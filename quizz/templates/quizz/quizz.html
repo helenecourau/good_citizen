@@ -1,32 +1,32 @@
 <style type="text/css">
-	#pres {
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
+    #pres {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 
 </style>
 {% extends "base.html" %}
 {% block content %}
-<div class="col-lg-12">
-    <h1>Quizz</h1>
-    {% if user.is_authenticated %}
-    <p id="pres">Cliquez sur le quizz que vous souhaitez tester.</p>
-    {% if messages %}
-		<ul class="messages">
-			{% for message in messages %}
-				<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
-			{% endfor %}
-		</ul>
-	{% endif %}
-	<div class="row col-lg-12">
-		{% for quizz in quizz_list%}
-			<div class="col-lg-12">
-				<p><strong><a href="{% url 'quizz_page' id_quizz=quizz.id %}">{{ quizz.name }} - {{ quizz.question_set.count }} questions</a></strong></p>
-			</div>
-		{% endfor %}
-	</div>
-    {% else %}
-    <h3><a href="/connexion">Connectez-vous</a> pour accéder aux quizzs !</h3>
-    {% endif %}
-</div>
+    <div class="col-lg-12">
+        <h1>Quizz</h1>
+        {% if user.is_authenticated %}
+            <p id="pres">Cliquez sur le quizz que vous souhaitez tester.</p>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="row col-lg-12">
+                {% for quizz in quizz_list%}
+                    <div class="col-lg-12">
+                        <p><strong><a href="{% url 'quizz_page' id_quizz=quizz.id %}">{{ quizz.name }} - {{ quizz.question_set.count }} questions</a></strong></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3><a href="/connexion">Connectez-vous</a> pour accéder aux quizzs !</h3>
+        {% endif %}
+    </div>
 {% endblock %}

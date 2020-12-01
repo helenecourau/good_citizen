@@ -1,65 +1,63 @@
 <style type="text/css">
-	form {
-		text-align: left;
-		position: relative;
-	    left: 265px;
-	}
+    form {
+        text-align: left;
+        position: relative;
+        left: 265px;
+    }
 
-	form td {
-		color: #fff;
-		padding-bottom: 5%;
-	}
+    form td {
+        color: #fff;
+        padding-bottom: 5%;
+    }
 
-	@media screen and (max-width: 1280px)
-	{
-		form{
-		    left: 5px;
-		}
+    @media screen and (max-width: 1280px)
+    {
+        form{
+            left: 5px;
+        }
 
-		td{
-		display: flex;	
-		}
-	}  
+        td{
+        display: flex;    
+        }
+    }  
 </style>
 
 {% extends "base.html" %}
 
-{% block content %}
+    {% block content %}
 
-{% if form.errors %}
-	<p class="error-message">
-	    {{ form.errors.new_password2 }}
-	</p>
-{% endif %}
+    {% if form.errors %}
+        <p class="error-message">
+            {{ form.errors.new_password2 }}
+        </p>
+    {% endif %}
 
-<div class="col-lg-12">
-    <h1>Réinitialiser mon mot de passe</h1>
-</div>
-{% if validlink %}
-<form method="post">
-    {% csrf_token %}
-    <table>
-		<tr>
-		    <td id="test">Nouveau mot de passe</td>
-		    <td><input type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1"></td>
-		</tr>
-		<tr>
-		    <td>Confirmer le mot de passe</td>
-		    <td><input type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2"></td>
-		</tr>
-	</table>
-    <div>
-    	<ul>
-			<li>Votre mot de passe ne doit pas être trop proche de votre nom d'utilisateur.</li>
-			<li>Votre mot de passe doit contenir au moins 8 caractères, avec des chiffres et des lettre.</li>
-			<li>Votre mot de passe ne doit pas être trop courant.</li>
-		</ul>
+    <div class="col-lg-12">
+        <h1>Réinitialiser mon mot de passe</h1>
     </div>
-    <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
-</form>
-{% else %}
-    <p>
-    Le lien est invalide, sans doute déjà utilisé. Merci d'en demander un nouveau sur <a href="/reset-mdp">cette page</a>.
-    </p>
-{% endif %}
+    {% if validlink %}
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td id="test">Nouveau mot de passe</td>
+                    <td><input type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1"></td>
+                </tr>
+                <tr>
+                    <td>Confirmer le mot de passe</td>
+                    <td><input type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2"></td>
+                </tr>
+            </table>
+            <div>
+                <ul>
+                    <li>Votre mot de passe ne doit pas être trop proche de votre nom d'utilisateur.</li>
+                    <li>Votre mot de passe doit contenir au moins 8 caractères, avec des chiffres et des lettre.</li>
+                    <li>Votre mot de passe ne doit pas être trop courant.</li>
+                </ul>
+            </div>
+            <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
+        </form>
+    {% else %}
+        <p>Le lien est invalide, sans doute déjà utilisé. Merci d'en demander un nouveau sur <a href="/reset-mdp">cette page</a>.</p>
+    {% endif %}
 {% endblock %}

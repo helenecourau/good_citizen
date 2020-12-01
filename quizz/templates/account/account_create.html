@@ -1,105 +1,105 @@
 <style type="text/css">
-	#errorlist{
-		color: #e2001a;
-	}
+    #errorlist{
+        color: #e2001a;
+    }
 
-	#form_connect{
-		text-align: left;
-		position: relative;
-	    left: 300px;
-	}
+    #form_connect{
+        text-align: left;
+        position: relative;
+        left: 300px;
+    }
 
-	#field{
-		display: flex;	
-	}
+    #field{
+        display: flex;    
+    }
 
-	@media screen and (max-width: 1280px)
-	{
-		#field{
-			flex-direction: column;
-	    	justify-content: space-between;	
-		}
+    @media screen and (max-width: 1280px)
+    {
+        #field{
+            flex-direction: column;
+            justify-content: space-between;    
+        }
 
-		#label{
-			padding-top: 5%
-		}
+        #label{
+            padding-top: 5%
+        }
 
-		#form_connect{
-		    left: 10px;
-		}
+        #form_connect{
+            left: 10px;
+        }
 
-		h1{
-			font-size: 80%;
-		}
-	}  
+        h1{
+            font-size: 80%;
+        }
+    }  
 </style>
 
 {% extends "base.html" %}
 {% block content %}
-<div class="col-lg-12">
-	<h1>Créez votre compte !</h1>
-</div>
-{% if messages %}
-	<ul class="messages">
-		{% for message in messages %}
-			<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
-		{% endfor %}
-	</ul>
-{% endif %}
-<div class="col-lg-10">
-  	<form action="{% url 'account_create' %}" method="post" class="col-lg-12" id="form_connect">
-	    {% csrf_token %}
-	    {{ form.non_field_errors }}
-	    <div class="col-lg-10" id="field">
-			<div class="col-lg-2" id="label">
-			    {{ form.first_name.errors }}
-			    <p><label for="{{ form.first_name.id_for_label }}">Prénom:</label></p>
-			</div>
-			<div class="col-lg-3">
-			    {{ form.first_name }}
-			</div>
-			<div class="col-lg-2" id="label">
-			    {{ form.last_name.errors }}
-			    <p><label for="{{ form.last_name.id_for_label }}">Nom de famille:</label></p>
-			</div>
-			<div class="col-lg-3">
-			    {{ form.last_name }}
-			</div>
-		</div>
-		<div class="col-lg-10" id="field">
-			<div class="col-lg-2" id="label">
-			    {{ form.mail.errors }}
-			    <p><label for="{{ form.mail.id_for_label }}">Email:</label></p>
-			</div>
-			<div class="col-lg-3">
-			    {{ form.mail }}
-			</div>
-			<div class="col-lg-2"id="label">
-			    {{ form.username.errors }}
-			    <p><label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label></p>
-			</div>
-			<div class="col-lg-3">
-			    {{ form.username }}
-			</div>
-		</div>
-		<div class="col-lg-10" id="field">
-			<div class="col-lg-2" id="label">
-			    <p><label for="{{ form.password.id_for_label }}">Mot de passe:</label></p>
-			</div>
-			<div class="col-lg-3">
-			    {{ form.password }}
-			    {% if form.password.errors %}
-			    	{% for error in form.password.errors %}
-			        	<p id="errorlist">{{ error|escape }}</p>
-			    	{% endfor %}
-				{% endif %}
-			</div>
-		</div>
-		<div class="col-lg-10" id="field">
-			<div class="col-lg-5" id="label">
-	    		<input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
-	    	</div>
-		</div>
-    </form>
-</div>
+    <div class="col-lg-12">
+        <h1>Créez votre compte !</h1>
+    </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="col-lg-10">
+          <form action="{% url 'account_create' %}" method="post" class="col-lg-12" id="form_connect">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="col-lg-10" id="field">
+                <div class="col-lg-2" id="label">
+                    {{ form.first_name.errors }}
+                    <p><label for="{{ form.first_name.id_for_label }}">Prénom:</label></p>
+                </div>
+                <div class="col-lg-3">
+                    {{ form.first_name }}
+                </div>
+                <div class="col-lg-2" id="label">
+                    {{ form.last_name.errors }}
+                    <p><label for="{{ form.last_name.id_for_label }}">Nom de famille:</label></p>
+                </div>
+                <div class="col-lg-3">
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <div class="col-lg-10" id="field">
+                <div class="col-lg-2" id="label">
+                    {{ form.mail.errors }}
+                    <p><label for="{{ form.mail.id_for_label }}">Email:</label></p>
+                </div>
+                <div class="col-lg-3">
+                    {{ form.mail }}
+                </div>
+                <div class="col-lg-2"id="label">
+                    {{ form.username.errors }}
+                    <p><label for="{{ form.username.id_for_label }}">Nom d'utilisateur:</label></p>
+                </div>
+                <div class="col-lg-3">
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="col-lg-10" id="field">
+                <div class="col-lg-2" id="label">
+                    <p><label for="{{ form.password.id_for_label }}">Mot de passe:</label></p>
+                </div>
+                <div class="col-lg-3">
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <p id="errorlist">{{ error|escape }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-10" id="field">
+                <div class="col-lg-5" id="label">
+                    <input type="submit" value="Valider" id="submit" class="btn btn-primary btn-search"/>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

@@ -1,25 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div>
-    <h1 id="test">Mes résultats</h1>
-</div>
-{% if user.is_authenticated %}
-    {% if results %}
-        <div class="col-lg-12">
-            <p>Voici tous les quizz que vous avez remplis. Vous pouvez les refaire si vous souhaitez améliorer votre score.</p>
-        </div>
-        {% for result in results %}
+    <div>
+        <h1 id="test">Mes résultats</h1>
+    </div>
+    {% if user.is_authenticated %}
+        {% if results %}
             <div class="col-lg-12">
-                <p><strong><a href="{% url 'quizz_page' id_quizz=result.quizz.id %}">{{ result.quizz.name }}</a></strong> tenté la dernière fois le {{ result.last_date|date:"j F Y" }}, résultat : {{ result.score }} bonnes réponses sur {{ result.quizz.question_set.count }} questions.</p>
+                <p>Voici tous les quizz que vous avez remplis. Vous pouvez les refaire si vous souhaitez améliorer votre score.</p>
             </div>
-        {% endfor %}
+            {% for result in results %}
+                <div class="col-lg-12">
+                    <p><strong><a href="{% url 'quizz_page' id_quizz=result.quizz.id %}">{{ result.quizz.name }}</a></strong> tenté la dernière fois le {{ result.last_date|date:"j F Y" }}, résultat : {{ result.score }} bonnes réponses sur {{ result.quizz.question_set.count }} questions.</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-lg-12">
+                <p><strong>Vous n'avez pas encore tenté de quizz. Retrouvez-les tous <a href="{% url 'quizz' %}">ici</a>.</strong></p>
+            </div>
+        {% endif %}
     {% else %}
-        <div class="col-lg-12">
-            <p><strong>Vous n'avez pas encore tenté de quizz. Retrouvez-les tous <a href="{% url 'quizz' %}">ici</a>.</strong></p>
-        </div>
+        <h3><a href="/connexion">Connectez-vous</a> pour accéder à vos résultats.</h3>
     {% endif %}
-{% else %}
-    <h3><a href="/connexion">Connectez-vous</a> pour accéder à vos résultats.</h3>
-{% endif %}
+
 {% endblock %}

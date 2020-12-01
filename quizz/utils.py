@@ -25,12 +25,13 @@ def answer_right_or_wrong(answer_user_id):
 
 def calulate_final_result(total_result, questions):
     '''Calculate if the user succeed or not'''
-    if total_result >= len(questions) / 2:
-        final_result = True
-    else:
-        final_result = False
+    if len(questions) > 0:
+        if total_result >= len(questions) / 2:
+            final_result = True
+        else:
+            final_result = False
 
-    return final_result
+        return final_result
 
 def calulate_final_right_answer(right_answers):
     

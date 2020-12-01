@@ -5,7 +5,7 @@ import re
 class AccountForm(forms.Form):
     first_name = forms.CharField(max_length=30, label="Prénom")
     last_name = forms.CharField(max_length=30, label="Nom")
-    username = forms.CharField(max_length=30, label="Nom d'utilisateur")
+    username = forms.CharField(max_length=150, label="Nom d'utilisateur")
     mail = forms.EmailField(label="E-mail")
     password = forms.CharField(
         label="Mot de passe",

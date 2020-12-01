@@ -44,31 +44,31 @@
                     <i class="fas fa-bars ml-1"></i>
                 </button>
                 {% if user.is_authenticated %}
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item" id="quizz"><a class="nav-link js-scroll-trigger" href="/quizz">Quizz</a>
-                            <p id="help"><a href="/quizz/?category=1">Tri des déchets</a></p>
-                            <p id="help"><a href="/quizz/?category=2">Premiers secours</a></p>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="/mon-compte"><i class="far fa-user fa-2x"></i></a>
-                            <p id="help"><a href="/mon-compte">Mon compte</a></p>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="/deconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a>
-                            <p id="help"><a href="/deconnexion">Déconnexion</a></p>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ml-auto">
+                            <li class="nav-item" id="quizz"><a class="nav-link js-scroll-trigger" href="/quizz">Quizz</a>
+                                <p id="help"><a href="/quizz/?category=1">Tri des déchets</a></p>
+                                <p id="help"><a href="/quizz/?category=2">Premiers secours</a></p>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" href="/mon-compte"><i class="far fa-user fa-2x"></i></a>
+                                <p id="help"><a href="/mon-compte">Mon compte</a></p>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" href="/deconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                                <p id="help"><a href="/deconnexion">Déconnexion</a></p>
+                            </li>
+                        </ul>
+                    </div>
                 {% else %}
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="/mon-compte"><i class="far fa-user fa-2x"></i></a>
-                            <p id="help"><a href="/mon-compte">Me connecter</a></p>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" href="/mon-compte"><i class="far fa-user fa-2x"></i></a>
+                                <p id="help"><a href="/mon-compte">Me connecter</a></p>
+                            </li>
+                        </ul>
+                    </div>
                 {% endif %}
             </div>
         </nav>
