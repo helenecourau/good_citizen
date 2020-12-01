@@ -5,17 +5,17 @@ def answer_right_or_wrong(answer_user_id):
     '''For each question, looks if the user answer is right and
     calculate the number of good answer'''
     total_result = 0
-    for elt in answer_user_id:
+    for answer in answer_user_id:
         result = None
-        question_answer = QuestionsAnswers.objects.filter(question__id=elt["key"])
+        question_answer = QuestionsAnswers.objects.filter(question__id=answer["key"])
         right_answer = list(
             question_answer.filter(right_answer=True).values_list(
                 "answer__pk", flat=True
             )
         )
         right_answer.sort()
-        elt["value"].sort()
-        if elt["value"] == right_answer:
+        answer["value"].sort()
+        if answer["value"] == right_answer:
             result = True
             total_result += 1
         else:
