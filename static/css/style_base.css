@@ -1,0 +1,111 @@
+/*nav*/
+
+#help a{
+  color: transparent;
+  position: absolute;
+  width: 100%;
+}
+
+.nav-item:hover #help a{
+  color: #fff;
+}
+
+/*quiz*/
+
+#pres{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#submit{
+  margin-top: 10px;
+}
+
+#h2{
+  margin-bottom: 50px;
+}
+
+input[type=checkbox]{
+  width: 0.86em;
+  height: 0.8em;
+  background-color: white;
+  border-radius: 20%;
+  vertical-align: middle;
+  border: 2px solid white;;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type=checkbox]:checked{
+  background-color: black;
+}
+
+/*account*/
+#other{
+  padding-top: 1%
+}
+
+#error{
+  display: table-column;
+}
+
+#errorlist{
+  color: #e2001a;
+}
+
+#form_connect{
+  text-align: left;
+  position: relative;
+  left: 300px;
+}
+
+#field{
+  display: flex;    
+}
+
+#pwd_reset {
+  text-align: left;
+  position: relative;
+  left: 438px;
+}
+
+form td {
+  color: #fff;
+  padding-bottom: 5%;
+}
+
+/*all*/
+
+#title{
+  padding-bottom: 2%
+}
+
+@media screen and (max-width: 1280px){
+  .nav-item:hover #help a{
+    color: transparent;
+  }
+
+  #field{
+    flex-direction: column;
+    justify-content: space-between;    
+  }
+
+  #label{
+    padding-top: 5%
+  }
+
+  #form_connect{
+    left: 10px;
+  }
+
+  h1{
+    font-size: 80%;
+  }
+  #pwd_reset {
+    left: 5px;
+  }
+
+  td{
+    display: flex;    
+  }
+}
